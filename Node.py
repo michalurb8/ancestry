@@ -35,6 +35,7 @@ class Node:
         r = max(0,min(255,(r + randint(-sigma, sigma))))
         g = max(0,min(255,(g + randint(-sigma, sigma))))
         b = max(0,min(255,(b + randint(-sigma, sigma))))
+
         self.color = (r,g,b)
 
     def randomize(self):

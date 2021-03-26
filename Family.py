@@ -15,9 +15,12 @@ class Family:
     def populate(self, genCount):
         self.killChildren()
         self.setGray(self.firstGen)
+        # for parent in self.firstGen:
+        #     parent.randomize()
         currGen = []
         prevGen = self.firstGen
-        for _ in range(genCount - 1):
+        for i in range(genCount - 1):
+            print(i/genCount)
             currGen = []
             for _ in range(self.N):
                 index = randint(0, self.N-1)
