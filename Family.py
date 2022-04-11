@@ -1,3 +1,4 @@
+from typing import List
 from Node import Node
 from random import randint
 
@@ -7,24 +8,26 @@ class Family:
         self.N = N
         self.firstGen = [Node(None) for _ in range(N)]
 
-    def killChildren(self):
+    def populate(self, genCount: int, sigma: int, color = "111"):
+        assert color == '0' or len(color) == 3, "Wrong color choice"
         for child in self.firstGen:
             child.children = []
         self.currSize = 0
-
-    def populate(self, genCount):
-        self.killChildren()
-        self.setGray(self.firstGen)
-        # for parent in self.firstGen:
-        #     parent.randomize()
+        if color=='0':
+            for parent in self.firstGen:
+                parent.randomize()
+        else:
+            r, g, b = color[0]=='1', color[1]=='1', color[2]=='1'
+            self.setRGB(self.firstGen, r, g, b)
         currGen = []
         prevGen = self.firstGen
         for i in range(genCount - 1):
-            print(i/genCount)
+            print(str(i/genCount)[:4], end='\r')
             currGen = []
             for _ in range(self.N):
                 index = randint(0, self.N-1)
                 new = Node(prevGen[index])
+                new.mutate(sigma)
                 prevGen[index].addChild(new)
                 currGen.append(new)
             prevGen = currGen
@@ -43,24 +46,7 @@ class Family:
             prevGen = currGen
         self.currSize = genCount
 
-    def countNodes(self):
-        nodes = 0
-        for parent in self.firstGen:
-            nodes += 1
-            nodes += parent.countChildren()
-        return nodes
-
-    def countLeaves(self):
-        leaves = 0
-        for child in self.firstGen:
-            leaves += child.countLeaves()
-        return leaves
-
-    def print(self):
-        for parent in self.firstGen:
-            parent.print(0)
-    
-    def setGray(self, generation):
+    def setRGB(self, generation: List, useRed: bool = True, useGreen: bool = False, useBlue: bool = False) -> None:
         for index, node in enumerate(generation):
-            g = int(255*index/self.N)
-            node.color = ((g,g,g))
+            col = int(255*index/self.N)
+            node.color = ((col if useRed else 0, col if useGreen else 0, col if useBlue else 0))
