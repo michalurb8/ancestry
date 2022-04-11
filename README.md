@@ -5,5 +5,6 @@ Each point's color is slightly different than its parent's.
 G generations are produces, resulting in an NxG image.
 
 Requirements:
-pygame
+Python3: pygame, argparse
 
+![alt text](https://github.com/michalurb8/ancestry/blob/master/example1.png?raw=true)
